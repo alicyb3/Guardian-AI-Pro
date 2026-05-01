@@ -59,7 +59,7 @@ if not st.session_state.started:
         display: flex; flex-direction: column;
         justify-content: center; align-items: center; color: white; text-align: center;
     }
-    .hero-title { font-size: calc(1.8rem + 1.5vw) !important; font-weight: bold; margin-bottom: 15px; line-height: 1.3; width: 95%; }
+    .hero-title { font-size: calc(2.5rem + 1.5vw) !important; font-weight: bold; margin-bottom: 15px; line-height: 1.3; width: 95%; }
         .start-btn button {
             background-color: #4a69bd !important; color: white !important;
             font-size: 26px !important; padding: 15px 70px !important;
