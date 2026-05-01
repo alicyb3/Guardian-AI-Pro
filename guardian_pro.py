@@ -50,6 +50,7 @@ if not st.session_state.started:
     st.markdown("""
         <style>
         .block-container { padding: 0rem; }
+        @media (max-width: 600px) { .hero-title { font-size: 24px !important; } }
         .hero-section {
             background-image: linear-gradient(rgba(12, 36, 97, 0.85), rgba(12, 36, 97, 0.85)), 
                               url('https://img.freepik.com/free-vector/cyber-security-concept_23-2148532223.jpg');
@@ -57,7 +58,7 @@ if not st.session_state.started:
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; color: white; text-align: center;
         }
-        .hero-title { font-size: 70px; font-weight: bold; margin-bottom: 10px; }
+        .hero-title { font-size: 35px; font-weight: bold; margin-bottom: 10px; }
         .start-btn button {
             background-color: #4a69bd !important; color: white !important;
             font-size: 26px !important; padding: 15px 70px !important;
