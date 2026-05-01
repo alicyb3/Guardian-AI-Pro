@@ -48,25 +48,41 @@ def get_ip_info(ip):
 # --- CSS للتحكم بالواجهات ---
 if not st.session_state.started:
     st.markdown("""
-        <style>
-        .block-container { padding: 0rem; }
-        @media (max-width: 600px) { .hero-title { font-size: 24px !important; } }
-        .hero-section {
+       <style>
+    .block-container { padding: 0rem; }
+    
+    /* تنسيق الحاسبة - الهيبة الكاملة */
+    .hero-section {
         background-image: linear-gradient(rgba(12, 36, 97, 0.85), rgba(12, 36, 97, 0.85)),
                           url('https://img.freepik.com/free-vector/cyber-security-concept_23-2148532223.jpg');
         background-size: cover; background-position: center;
-        padding: 80px 10px; min-height: 300px;
-        display: flex; flex-direction: column;
+        height: 85vh; display: flex; flex-direction: column;
         justify-content: center; align-items: center; color: white; text-align: center;
     }
-    .hero-title { font-size: calc(2.5rem + 1.5vw) !important; font-weight: bold; margin-bottom: 15px; line-height: 1.3; width: 95%; }
-        .start-btn button {
-            background-color: #4a69bd !important; color: white !important;
-            font-size: 26px !important; padding: 15px 70px !important;
-            border-radius: 50px !important; border: none !important; transition: 0.3s;
-        }
-        .start-btn button:hover { transform: scale(1.1); background-color: #1e3799 !important; }
-        </style>
+
+    .hero-title { 
+        font-size: 60px !important; 
+        font-weight: bold; 
+        margin-bottom: 20px; 
+        line-height: 1.2; 
+        width: 90%;
+    }
+
+    /* تنسيق الموبايل - الترتيب التلقائي */
+    @media (max-width: 600px) {
+        .hero-title { font-size: 30px !important; }
+        .hero-section { height: auto !important; padding: 100px 10px !important; }
+    }
+
+    /* ألوان نصوص الجامعة والزر */
+    .hero-section p { color: white !important; font-size: 1.3rem !important; }
+    .start-btn button {
+        background-color: #4a69bd !important; color: white !important;
+        font-size: 26px !important; padding: 15px 70px !important;
+        border-radius: 50px !important; border: none !important; transition: 0.3s;
+    }
+    .start-btn button:hover { transform: scale(1.1); background-color: #1e3799 !important; }
+    </style>
         """, unsafe_allow_html=True)
 else:
     st.markdown("""
