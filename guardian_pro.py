@@ -138,30 +138,42 @@ else:
                     # إضافة استخراج درجة الثقة
                     confidence = f"{round(res['scores'][0] * 100, 2)}%"
                     
-                    # حفظ البيانات بالسجل (مع خانة الدرجة الجديدة)
-                    c.execute("INSERT INTO logs VALUES (?,?,?,?,?)", 
-                              (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "AI Analysis", u_input, label, confidence))
-                    conn.commit()
-                    
-                    # عرض النتائج
-                    st.divider()
-                    if label == "Safe":
-                        st.success(f"✅ النتيجة: المحتوى يبدو آمناً (التصنيف: {label} | الثقة: {confidence})")
-                    else:
-                        st.error(f"⚠️ تحذير: تم كشف محتوى مشبوه! (التصنيف: {label} | الثقة: {confidence})")
-                    
-                    # فحص الروابط تقنياً
+                   # 2. فحص الروابط تقنياً عبر VirusTotal
+                    vt_status = "No Links"
                     urls = re.findall(r'([a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})', u_input)
-                    if urls:
-                        st.markdown("---")
-                        st.subheader("🔗 نتائج فحص الروابط (VirusTotal):")
-                        for link in urls:
-                            f_url = link if link.startswith("http") else "http://" + link
-                            mal_count = check_url_vt(f_url)
-                            if mal_count > 0:
-                                st.warning(f"❌ الرابط **{link}** خطر! تم كشفه بـ {mal_count} محرك أمني.")
-                            else:
-                                st.info(f"✅ الرابط **{link}** نظيف حسب قواعد البيانات العالمية.")
+                    
+                    st.divider()
+                    st.subheader("🛡️ تقرير الفحص المدمج:")
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.info("🤖 تحليل الذكاء الاصطناعي")
+                        if label == "Safe":
+                            st.success(f"النتيجة: {label}\n\nالثقة: {confidence}")
+                        else:
+                            st.error(f"النتيجة: {label}\n\nالثقة: {confidence}")
+                            
+                    with col2:
+                        st.info("🌐 فحص قاعدة البيانات العالمية")
+                        if urls:
+                            for link in urls:
+                                f_url = link if link.startswith("http") else "http://" + link
+                                mal_count = check_url_vt(f_url)
+                                if mal_count > 0:
+                                    st.error(f"الرابط: {link}\n\nالحالة: خبيث ({mal_count} تهديد)")
+                                    vt_status = f"Malicious ({mal_count})"
+                                else:
+                                    st.success(f"الرابط: {link}\n\nالحالة: نظيف")
+                                    vt_status = "Clean"
+                        else:
+                            st.write("لا توجد روابط للفحص")
+                    
+                    # حفظ البيانات بالسجل
+                    final_result = f"AI:{label} | VT:{vt_status}"
+                    c.execute("INSERT INTO logs VALUES (?,?,?,?,?)", 
+                              (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "Hybrid Analysis", u_input, final_result, confidence))
+                    conn.commit()
 
     # التبويب الثاني: تتبع الـ IP
     with tab2:
